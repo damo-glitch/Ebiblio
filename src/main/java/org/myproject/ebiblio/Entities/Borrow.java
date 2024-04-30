@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "customer_borrow_book")
+@Table(name = "user_borrow_book")
 public class Borrow {
 
     @Id
@@ -25,6 +25,6 @@ public class Borrow {
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 }
