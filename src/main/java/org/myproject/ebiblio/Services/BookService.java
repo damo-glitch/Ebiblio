@@ -16,7 +16,6 @@ public interface BookService {
 
     Book getBookById(Long id);
 
-
     // USERS ACTIONS
     Book BuyBook(Book book);
 

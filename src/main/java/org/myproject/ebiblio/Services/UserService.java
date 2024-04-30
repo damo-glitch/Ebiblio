@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 
 public interface UserService {
+    User saveUser(User user);
+
 }

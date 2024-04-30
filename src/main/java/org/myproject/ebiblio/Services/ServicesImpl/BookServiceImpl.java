@@ -1,6 +1,9 @@
 package org.myproject.ebiblio.Services.ServicesImpl;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.myproject.ebiblio.Entities.Book;
+import org.myproject.ebiblio.Entities.Enum.BookStatus;
 import org.myproject.ebiblio.Repositories.BookRepository;
 import org.myproject.ebiblio.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookServiceImpl implements BookService {
 
     @Autowired
@@ -22,7 +27,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book saveBook(Book book) {
-        return null;
+        if(findBookByTitle(book.getTitle()) != null){
+            throw new RuntimeException("Ce livre existe déjà");
+        }
+        return bookRepository.save(book);
     }
 
     /**
@@ -32,7 +40,10 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book updateBook(Book book) {
-        return null;
+        if(!bookRepository.existsById(book.getId())){
+            throw new RuntimeException("Ce livre n'existe pas");
+        }
+        return bookRepository.save(book);
     }
 
     /**
@@ -41,21 +52,32 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public void deleteBook(Book book) {
-
+        if(!bookRepository.existsById(book.getId())){
+            throw new RuntimeException("Ce livre n'existe pas");
+        }
+        bookRepository.delete(book);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return null;
+        return bookRepository.findAll();
     }
 
     @Override
     public Book getBookById(Long id) {
-        return null;
+        return bookRepository.findById(id).get();
     }
+
 
     @Override
     public Book BuyBook(Book book) {
+        Book b = bookRepository.findById(book.getId()).get();
+
+        Integer inStock = b.getInStock() - 1;
+        b.setInStock(inStock);
+
+        String status = b.getBookStatus().toString();
+        b.setBookStatus(BookStatus.valueOf(status));
         return null;
     }
 
@@ -68,4 +90,14 @@ public class BookServiceImpl implements BookService {
     public Book reverseBook(Book book) {
         return null;
     }
+
+
+    private Book findBookByTitle(String title) {
+        return bookRepository.getBookByTitle(title);
+    }
+
+
+
+
+
 }

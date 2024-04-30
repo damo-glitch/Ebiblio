@@ -11,4 +11,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     //Book getBookByIsbn(UUID isbn);
 
     Book getBookByTitle(String title);
+
+
 }
