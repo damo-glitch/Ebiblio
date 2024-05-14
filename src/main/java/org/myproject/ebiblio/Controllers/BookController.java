@@ -28,7 +28,7 @@ public class BookController {
      * @param book
      * @return book
      */
-    @PostMapping("/saveBook")
+    @PostMapping("/save")
     public ResponseEntity<BookDto> saveBook(@RequestBody Book book) {
         try {
             return new ResponseEntity<>(BookMapper.mapToDto(bookService.saveBook(book)), HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class BookController {
      * @param book
      * @return book
      */
-    @PutMapping("/updateBook/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody Book book) {
         if (!id.equals(book.getId())) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -61,7 +61,7 @@ public class BookController {
      * @param id
      * @return Void
      */
-    @DeleteMapping("/deleteBook/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
         bookService.deleteBoodById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -71,7 +71,7 @@ public class BookController {
      * API for get all books
      * @return
      */
-    @GetMapping("/getAllBooks")
+    @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
         //return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getAllBooks()), HttpStatus.OK);
@@ -82,9 +82,10 @@ public class BookController {
      * @param id
      * @return
      */
-    @GetMapping("/getBookById/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
+        //return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDto(bookService.getBookById(id)), HttpStatus.OK);
     }
 
     /**
@@ -103,7 +104,7 @@ public class BookController {
      * API for get books available
      * @return List<Book>
      */
-    @GetMapping("/getBooksAvailable")
+    @GetMapping("/available")
     public ResponseEntity<List<BookDto>> getBooksAvailable() {
         //return new ResponseEntity<>(bookService.getBooksAvailable(), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksAvailable()), HttpStatus.OK);
@@ -113,7 +114,7 @@ public class BookController {
      * API for get books borrowed
      * @return List<Book>
      */
-    @GetMapping("/getBooksBorrowed")
+    @GetMapping("/borrowed")
     public ResponseEntity<List<BookDto>> getBooksBorrowed() {
         //return new ResponseEntity<>(bookService.getBooksBorrowed(), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksBorrowed()), HttpStatus.OK);
@@ -123,7 +124,7 @@ public class BookController {
      * API for get books reserved
      * @return List<Book>
      */
-    @GetMapping("/getBooksReserved")
+    @GetMapping("/reserved")
     public ResponseEntity<List<BookDto>> getBooksReserved() {
         //return new ResponseEntity<>(bookService.getBooksReserved(), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksReserved()), HttpStatus.OK);
