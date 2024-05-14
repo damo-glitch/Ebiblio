@@ -19,7 +19,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID isbn;
+    private String isbn;
     private String title;
     private String author;
     private LocalDate dateOfPublication;

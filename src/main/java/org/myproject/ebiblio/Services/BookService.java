@@ -10,11 +10,12 @@ public interface BookService {
 
     Book updateBook(Book book);
 
-    void deleteBook(Book book);
 
     List<Book> getAllBooks();
 
     Book getBookById(Long id);
+
+    void deleteBoodById(Long id);
 
     // USERS ACTIONS
     Book BuyBook(Book book);
@@ -22,5 +23,7 @@ public interface BookService {
     Book borrowBook(Book book);
 
     Book reverseBook(Book book);
+
+
 
 }

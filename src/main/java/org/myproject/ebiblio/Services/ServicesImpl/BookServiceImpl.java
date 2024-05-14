@@ -46,17 +46,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    /**
-     * Cette méthode permet de supprimer un livre
-     * @param book
-     */
-    @Override
-    public void deleteBook(Book book) {
-        if(!bookRepository.existsById(book.getId())){
-            throw new RuntimeException("Ce livre n'existe pas");
-        }
-        bookRepository.delete(book);
-    }
 
     @Override
     public List<Book> getAllBooks() {
@@ -68,22 +57,38 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(id).get();
     }
 
+    @Override
+    public void deleteBoodById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
 
     @Override
     public Book BuyBook(Book book) {
         Book b = bookRepository.findById(book.getId()).get();
 
-        Integer inStock = b.getInStock() - 1;
-        b.setInStock(inStock);
+        if(b.getBookStatus() == BookStatus.AVAILABLE){
+            Integer inStock = b.getInStock() - 1;
+            b.setInStock(inStock);
 
-        String status = b.getBookStatus().toString();
-        b.setBookStatus(BookStatus.valueOf(status));
-        return null;
+            String status = BookStatus.SOLD.toString();
+            b.setBookStatus(BookStatus.valueOf(status));
+        }
+        return bookRepository.save(b);
     }
 
     @Override
     public Book borrowBook(Book book) {
-        return null;
+        Book bC = bookRepository.findById(book.getId()).get();
+
+        if(bC.getBookStatus() == BookStatus.AVAILABLE){
+            Integer inStock = bC.getInStock() - 1;
+            bC.setInStock(inStock);
+
+            String status = BookStatus.BORROWED.toString();
+            bC.setBookStatus(BookStatus.valueOf(status));
+        }
+        return bookRepository.save(bC);
     }
 
     @Override
