@@ -24,7 +24,7 @@ public class Book {
     private String author;
     private LocalDate dateOfPublication;
     private String editor;
-    private Integer InStock;
+    private Integer inStock;
     private Double priceBuy;
     @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;

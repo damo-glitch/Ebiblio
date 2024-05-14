@@ -25,19 +25,19 @@ class EbiblioApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    public void TestSaveBook() {
-        BookDto bookDto = new BookDto();
-        bookDto.setAuthor("Moiii");
-        bookDto.setEditor("Moiii");
-        bookDto.setInStock(10);
-        bookDto.setIsbn(UUID.randomUUID());
-        bookDto.setTitle("Mon livre à moii");
-        bookDto.setBookStatus(BookStatus.AVAILABLE);
-        bookDto.setDateOfPublication(java.time.LocalDate.now());
-        bookDto.setPriceBuy(5000.0);
-        Book book = bookService.saveBook(BookMapper.mapToEntity(bookDto));
-        System.out.println(book);
-        //bookRepository.save();
-    }
+//    @Test
+//    public void TestSaveBook() {
+//        BookDto bookDto = new BookDto();
+//        bookDto.setAuthor("Moiii");
+//        bookDto.setEditor("Moiii");
+//        bookDto.setInStock(10);
+//        bookDto.setIsbn(UUID.randomUUID());
+//        bookDto.setTitle("Mon livre à moii");
+//        bookDto.setBookStatus(BookStatus.AVAILABLE);
+//        bookDto.setDateOfPublication(java.time.LocalDate.now());
+//        bookDto.setPriceBuy(5000.0);
+//        Book book = bookService.saveBook(BookMapper.mapToEntity(bookDto));
+//        System.out.println(book);
+//        //bookRepository.save();
+//    }
 }

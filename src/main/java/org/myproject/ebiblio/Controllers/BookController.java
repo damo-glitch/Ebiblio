@@ -29,7 +29,12 @@ public class BookController {
      */
     @PostMapping("/saveBook")
     public ResponseEntity<BookDto> saveBook(@RequestBody Book book) {
-        return new ResponseEntity<>(BookMapper.mapToDto(bookService.saveBook(book)), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(BookMapper.mapToDto(bookService.saveBook(book)), HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println("Error : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
