@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.myproject.ebiblio.Entities.Book;
 import org.myproject.ebiblio.Entities.Dto.BookDto;
+import org.myproject.ebiblio.Entities.Enum.BookStatus;
 import org.myproject.ebiblio.Mapper.BookMapper;
 import org.myproject.ebiblio.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,9 @@ public class BookController {
      * @return
      */
     @GetMapping("/getAllBooks")
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+        //return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getAllBooks()), HttpStatus.OK);
     }
 
     /**
@@ -80,8 +82,50 @@ public class BookController {
      * @param id
      * @return
      */
-    @GetMapping("/{id}")
+    @GetMapping("/getBookById/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
+    }
+
+    /**
+     * API for get books by status
+     * @param status
+     * @return
+     */
+    @GetMapping("/getBooksByStatus/{status}")
+    public ResponseEntity<List<BookDto>> getBooksByStatus(@PathVariable String status) {
+        BookStatus bookStatus = BookStatus.valueOf(status);
+        //return new ResponseEntity<>(bookService.getBooksByStatus(bookStatus), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksByStatus(bookStatus)), HttpStatus.OK);
+    }
+
+    /**
+     * API for get books available
+     * @return List<Book>
+     */
+    @GetMapping("/getBooksAvailable")
+    public ResponseEntity<List<BookDto>> getBooksAvailable() {
+        //return new ResponseEntity<>(bookService.getBooksAvailable(), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksAvailable()), HttpStatus.OK);
+    }
+
+    /**
+     * API for get books borrowed
+     * @return List<Book>
+     */
+    @GetMapping("/getBooksBorrowed")
+    public ResponseEntity<List<BookDto>> getBooksBorrowed() {
+        //return new ResponseEntity<>(bookService.getBooksBorrowed(), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksBorrowed()), HttpStatus.OK);
+    }
+
+    /**
+     * API for get books reserved
+     * @return List<Book>
+     */
+    @GetMapping("/getBooksReserved")
+    public ResponseEntity<List<BookDto>> getBooksReserved() {
+        //return new ResponseEntity<>(bookService.getBooksReserved(), HttpStatus.OK);
+        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksReserved()), HttpStatus.OK);
     }
 }

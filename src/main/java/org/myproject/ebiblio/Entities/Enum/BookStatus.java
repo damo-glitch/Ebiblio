@@ -7,5 +7,6 @@ public enum BookStatus {
     BORROWED,
     SOLD,
     AVAILABLE,
-    OUT_OF_STOCK
+    OUT_OF_STOCK,
+    RESERVED
 }
