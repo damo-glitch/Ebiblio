@@ -1,7 +1,9 @@
 package org.myproject.ebiblio.Controllers;
 
 import org.myproject.ebiblio.Entities.Book;
+import org.myproject.ebiblio.Entities.Borrow;
 import org.myproject.ebiblio.Entities.Dto.BookDto;
+import org.myproject.ebiblio.Entities.Dto.BorrowDto;
 import org.myproject.ebiblio.Mapper.BookMapper;
 import org.myproject.ebiblio.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api-v1-Elibrairy/books")
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
@@ -43,6 +45,7 @@ public class BookController {
         if (!id.equals(book.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         Book bookToUpdate = bookService.updateBook(book);
         if (bookToUpdate != null) {
             return new ResponseEntity<>(BookMapper.mapToDto(bookToUpdate), HttpStatus.OK);
@@ -83,6 +86,24 @@ public class BookController {
         return new ResponseEntity<>(BookMapper.mapToDto(bookService.getBookById(id)), HttpStatus.OK);
     }
 
+    @PostMapping("/borrow")
+    public ResponseEntity<Void> borrowBook(@RequestBody Borrow borrow) {
+        try{
+            bookService.borrBook(borrow);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println("Error : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+//        try{
+//            Book book = bookService.getBookById(id);
+//            bookService.borrowBook(book);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }catch (Exception e){
+//            System.out.println("Error : " + e.getMessage());
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 
+    }
 
 }

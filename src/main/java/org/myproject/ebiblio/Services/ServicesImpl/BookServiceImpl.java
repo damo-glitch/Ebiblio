@@ -5,6 +5,7 @@ import org.myproject.ebiblio.Entities.Borrow;
 import org.myproject.ebiblio.Repositories.BookRepository;
 import org.myproject.ebiblio.Repositories.BorrowRepository;
 import org.myproject.ebiblio.Services.BookService;
+import org.myproject.ebiblio.Services.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Autowired
-    private BorrowRepository borrowRepository;
+    private BorrowService borrowService;
     /**
      * Cette méthode permet de sauvegarder un livre
      * @param book
@@ -92,13 +93,12 @@ public class BookServiceImpl implements BookService {
     public Book BuyBook(Book book) {
         Book b = bookRepository.findById(book.getId()).get();
 
-//        if(b.getBookStatus() == BookStatus.AVAILABLE){
-//            Integer inStock = b.getInStock() - 1;
-//            b.setInStock(inStock);
-//
-//            String status = BookStatus.SOLD.toString();
-//            b.setBookStatus(BookStatus.valueOf(status));
-//        }
+        if(b.getInStock() != 0){
+            Integer inStock = b.getInStock() - 1;
+            b.setInStock(inStock);
+            //String status = BookStatus.BORROWED.toString();
+            //b.setBookStatus(BookStatus.valueOf(status));
+        }
         return bookRepository.save(b);
     }
 
@@ -108,34 +108,48 @@ public class BookServiceImpl implements BookService {
      * @return book
      */
     @Override
-    public Book borrowBook(Book book) {
+    public void borrowBook(Book book) {
         Book bC = bookRepository.findById(book.getId()).get();
+         if(bC.getInStock() == 0){
+             throw new RuntimeException("Ce livre n'est plus disponible");
+         }else{
+             //-- UPDATE BOOK IN_STOCK
+             Integer inStock = bC.getInStock() - 1;
+             bC.setInStock(inStock);
 
-//        if(bC.getBookStatus() == BookStatus.AVAILABLE){
-//            Integer inStock = bC.getInStock() - 1;
-//            bC.setInStock(inStock);
-//
-//            String status = BookStatus.BORROWED.toString();
-//            bC.setBookStatus(BookStatus.valueOf(status));
-//        }
+             Borrow borrow = new Borrow();
+             borrow.setDateBorrow(LocalDate.now());
+             borrow.setBook(bC);
+             LocalDate date = borrow.getDateBorrow();
+             Integer nbDays = borrow.getNumberDays();
+             borrow.setDateExpired(date.plusDays(nbDays));
+             borrowService.saveBorrow(borrow);
+             bookRepository.save(bC);
+         }
 
-        Borrow br = new Borrow();
-        br.setDateBorrow(LocalDate.now());
-        br.setBook(bC);
-        borrowRepository.save(br);
-        return bookRepository.save(bC);
+
+
+
     }
 
-    /**
-     * Cette méthode permet de réserver un livre
-     * @param book
-     * @return book
-     */
     @Override
-    public Book reverseBook(Book book) {
-        return null;
-    }
+    public void borrBook(Borrow borrow) {
+        Book b = bookRepository.findById(borrow.getBook().getId()).orElse(null);
+        if(b == null || b.getInStock() == 0){
+            throw new RuntimeException("Ce livre n'est plus disponible");
+        }else{
+            Integer inStock = b.getInStock() - 1;
+            b.setInStock(inStock);
+            bookRepository.save(b);
+            borrow.setBook(b);
+            borrow.setDateBorrow(LocalDate.now());
 
+            LocalDate date = borrow.getDateBorrow();
+            Integer nbDays = borrow.getNumberDays();
+            borrow.setDateExpired(date.plusDays(nbDays));
+            borrowService.saveBorrow(borrow);
+        }
+    }
 
     //-- PRIVATE METHODS --//
     private Book findBookByTitle(String title) {

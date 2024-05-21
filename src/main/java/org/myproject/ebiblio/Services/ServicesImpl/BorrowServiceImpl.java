@@ -7,6 +7,8 @@ import org.myproject.ebiblio.Repositories.BorrowRepository;
 import org.myproject.ebiblio.Services.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,17 +23,19 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public Borrow updateBorrow(Borrow borrow) {
-        return null;
-    }
-
-    @Override
-    public Borrow deleteBorrow(Borrow borrow) {
-        return null;
-    }
-
-    @Override
     public List<Borrow> getAllBorrows() {
         return borrowRepository.findAll();
+    }
+
+    @Override
+    public List<Borrow> getBorrowsByBookTitle(String title) {
+        return borrowRepository.findBorrowsByBook_Title(title);
+    }
+
+    @Override
+    public List<Borrow> getBorrowsByDate(String startDate, String endDate) {
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        return borrowRepository.findByDateBorrowBetween(start, end);
     }
 }
