@@ -1,23 +1,17 @@
 package org.myproject.ebiblio.Controllers;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.myproject.ebiblio.Entities.Book;
 import org.myproject.ebiblio.Entities.Dto.BookDto;
-import org.myproject.ebiblio.Entities.Enum.BookStatus;
 import org.myproject.ebiblio.Mapper.BookMapper;
 import org.myproject.ebiblio.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("api-v1-Elibrairy/books")
-@AllArgsConstructor
-@NoArgsConstructor
 public class BookController {
 
     @Autowired
@@ -26,7 +20,7 @@ public class BookController {
     /**
      * API for save a book
      * @param book
-     * @return book
+     * @return bookDto
      */
     @PostMapping("/save")
     public ResponseEntity<BookDto> saveBook(@RequestBody Book book) {
@@ -42,15 +36,16 @@ public class BookController {
      * API for update a book
      * @param id
      * @param book
-     * @return book
+     * @return BookDto
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody Book book) {
         if (!id.equals(book.getId())) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (bookService.updateBook(book) != null) {
-            return new ResponseEntity<>(BookMapper.mapToDto(bookService.updateBook(book)), HttpStatus.OK);
+        Book bookToUpdate = bookService.updateBook(book);
+        if (bookToUpdate != null) {
+            return new ResponseEntity<>(BookMapper.mapToDto(bookToUpdate), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -69,7 +64,7 @@ public class BookController {
 
     /**
      * API for get all books
-     * @return
+     * @return List<BookDto>
      */
     @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
@@ -80,7 +75,7 @@ public class BookController {
     /**
      * API for get book by id
      * @param id
-     * @return
+     * @return BookDto
      */
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
@@ -88,45 +83,6 @@ public class BookController {
         return new ResponseEntity<>(BookMapper.mapToDto(bookService.getBookById(id)), HttpStatus.OK);
     }
 
-    /**
-     * API for get books by status
-     * @param status
-     * @return
-     */
-    @GetMapping("/getBooksByStatus/{status}")
-    public ResponseEntity<List<BookDto>> getBooksByStatus(@PathVariable String status) {
-        BookStatus bookStatus = BookStatus.valueOf(status);
-        //return new ResponseEntity<>(bookService.getBooksByStatus(bookStatus), HttpStatus.OK);
-        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksByStatus(bookStatus)), HttpStatus.OK);
-    }
 
-    /**
-     * API for get books available
-     * @return List<Book>
-     */
-    @GetMapping("/available")
-    public ResponseEntity<List<BookDto>> getBooksAvailable() {
-        //return new ResponseEntity<>(bookService.getBooksAvailable(), HttpStatus.OK);
-        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksAvailable()), HttpStatus.OK);
-    }
 
-    /**
-     * API for get books borrowed
-     * @return List<Book>
-     */
-    @GetMapping("/borrowed")
-    public ResponseEntity<List<BookDto>> getBooksBorrowed() {
-        //return new ResponseEntity<>(bookService.getBooksBorrowed(), HttpStatus.OK);
-        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksBorrowed()), HttpStatus.OK);
-    }
-
-    /**
-     * API for get books reserved
-     * @return List<Book>
-     */
-    @GetMapping("/reserved")
-    public ResponseEntity<List<BookDto>> getBooksReserved() {
-        //return new ResponseEntity<>(bookService.getBooksReserved(), HttpStatus.OK);
-        return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getBooksReserved()), HttpStatus.OK);
-    }
 }

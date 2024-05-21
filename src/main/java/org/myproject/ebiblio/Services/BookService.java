@@ -1,7 +1,6 @@
 package org.myproject.ebiblio.Services;
 
 import org.myproject.ebiblio.Entities.Book;
-import org.myproject.ebiblio.Entities.Enum.BookStatus;
 
 import java.util.List;
 
@@ -17,12 +16,6 @@ public interface BookService {
 
     void deleteBoodById(Long id);
 
-
-    //--------//
-    List<Book> getBooksAvailable();
-    List<Book> getBooksBorrowed();
-    List<Book> getBooksReserved();
-    List<Book> getBooksByStatus(BookStatus status);
 
     // USERS ACTIONS
     Book BuyBook(Book book);
