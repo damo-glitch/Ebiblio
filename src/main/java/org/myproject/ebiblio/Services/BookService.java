@@ -1,6 +1,7 @@
 package org.myproject.ebiblio.Services;
 
 import org.myproject.ebiblio.Entities.Book;
+import org.myproject.ebiblio.Entities.Borrow;
 
 import java.util.List;
 
@@ -10,17 +11,17 @@ public interface BookService {
 
     Book updateBook(Book book);
 
-    void deleteBook(Book book);
-
     List<Book> getAllBooks();
 
     Book getBookById(Long id);
 
+    void deleteBoodById(Long id);
+
+
     // USERS ACTIONS
     Book BuyBook(Book book);
 
-    Book borrowBook(Book book);
+    void borrowBook(Book book);
 
-    Book reverseBook(Book book);
-
+    void borrBook(Borrow borrow);
 }

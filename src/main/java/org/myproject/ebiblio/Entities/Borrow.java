@@ -20,6 +20,8 @@ public class Borrow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dateBorrow;
+    private Integer numberDays;
+    private LocalDate dateExpired;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
