@@ -21,7 +21,5 @@ public interface BookService {
     // USERS ACTIONS
     Book BuyBook(Book book);
 
-    void borrowBook(Book book);
-
     void borrBook(Borrow borrow);
 }

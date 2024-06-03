@@ -1,4 +1,4 @@
-package org.myproject.ebiblio.Mapper;
+package org.myproject.ebiblio.Mappers;
 
 import org.modelmapper.ModelMapper;
 import org.myproject.ebiblio.Entities.Borrow;

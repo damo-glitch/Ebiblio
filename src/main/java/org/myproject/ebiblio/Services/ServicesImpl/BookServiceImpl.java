@@ -104,34 +104,9 @@ public class BookServiceImpl implements BookService {
 
     /**
      * Cette méthode permet d'emprunter un livre
-     * @param book
+     * @param borrow
      * @return book
      */
-    @Override
-    public void borrowBook(Book book) {
-        Book bC = bookRepository.findById(book.getId()).get();
-         if(bC.getInStock() == 0){
-             throw new RuntimeException("Ce livre n'est plus disponible");
-         }else{
-             //-- UPDATE BOOK IN_STOCK
-             Integer inStock = bC.getInStock() - 1;
-             bC.setInStock(inStock);
-
-             Borrow borrow = new Borrow();
-             borrow.setDateBorrow(LocalDate.now());
-             borrow.setBook(bC);
-             LocalDate date = borrow.getDateBorrow();
-             Integer nbDays = borrow.getNumberDays();
-             borrow.setDateExpired(date.plusDays(nbDays));
-             borrowService.saveBorrow(borrow);
-             bookRepository.save(bC);
-         }
-
-
-
-
-    }
-
     @Override
     public void borrBook(Borrow borrow) {
         Book b = bookRepository.findById(borrow.getBook().getId()).orElse(null);

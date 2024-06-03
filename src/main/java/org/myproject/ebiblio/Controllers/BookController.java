@@ -3,8 +3,7 @@ package org.myproject.ebiblio.Controllers;
 import org.myproject.ebiblio.Entities.Book;
 import org.myproject.ebiblio.Entities.Borrow;
 import org.myproject.ebiblio.Entities.Dto.BookDto;
-import org.myproject.ebiblio.Entities.Dto.BorrowDto;
-import org.myproject.ebiblio.Mapper.BookMapper;
+import org.myproject.ebiblio.Mappers.BookMapper;
 import org.myproject.ebiblio.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,7 +70,6 @@ public class BookController {
      */
     @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
-        //return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDtoList(bookService.getAllBooks()), HttpStatus.OK);
     }
 
@@ -82,7 +80,6 @@ public class BookController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
-        //return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
         return new ResponseEntity<>(BookMapper.mapToDto(bookService.getBookById(id)), HttpStatus.OK);
     }
 
@@ -95,14 +92,6 @@ public class BookController {
             System.out.println("Error : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-//        try{
-//            Book book = bookService.getBookById(id);
-//            bookService.borrowBook(book);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }catch (Exception e){
-//            System.out.println("Error : " + e.getMessage());
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
 
     }
 

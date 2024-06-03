@@ -1,8 +1,7 @@
 package org.myproject.ebiblio.Controllers;
-
 import jakarta.websocket.server.PathParam;
 import org.myproject.ebiblio.Entities.Dto.BorrowDto;
-import org.myproject.ebiblio.Mapper.BorrowMapper;
+import org.myproject.ebiblio.Mappers.BorrowMapper;
 import org.myproject.ebiblio.Services.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
