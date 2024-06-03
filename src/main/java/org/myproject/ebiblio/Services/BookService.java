@@ -2,6 +2,7 @@ package org.myproject.ebiblio.Services;
 
 import org.myproject.ebiblio.Entities.Book;
 import org.myproject.ebiblio.Entities.Borrow;
+import org.myproject.ebiblio.Entities.Buy;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface BookService {
 
 
     // USERS ACTIONS
-    Book BuyBook(Book book);
+    void buyBook(Buy buy);
 
-    void borrBook(Borrow borrow);
+    void borrowBook(Borrow borrow);
 }

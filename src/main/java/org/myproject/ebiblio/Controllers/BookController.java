@@ -2,6 +2,7 @@ package org.myproject.ebiblio.Controllers;
 
 import org.myproject.ebiblio.Entities.Book;
 import org.myproject.ebiblio.Entities.Borrow;
+import org.myproject.ebiblio.Entities.Buy;
 import org.myproject.ebiblio.Entities.Dto.BookDto;
 import org.myproject.ebiblio.Mappers.BookMapper;
 import org.myproject.ebiblio.Services.BookService;
@@ -83,10 +84,26 @@ public class BookController {
         return new ResponseEntity<>(BookMapper.mapToDto(bookService.getBookById(id)), HttpStatus.OK);
     }
 
+    /**
+     * API for borrow a book
+     * @param borrow
+     * @return
+     */
     @PostMapping("/borrow")
     public ResponseEntity<Void> borrowBook(@RequestBody Borrow borrow) {
         try{
-            bookService.borrBook(borrow);
+            bookService.borrowBook(borrow);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println("Error : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    @PostMapping("/buy")
+    public ResponseEntity<Void> buyBook(@RequestBody Buy buy) {
+        try{
+            bookService.buyBook(buy);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             System.out.println("Error : " + e.getMessage());

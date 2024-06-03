@@ -5,17 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto {
+public class BuyDto {
     private Long id;
-    private String isbn;
-    private String title;
-    private String author;
-    private LocalDate dateOfPublication;
-    private String editor;
-    private Integer inStock;
-    private Double price;
+    private Integer quantity;
+    private LocalDate dateBuy;
+    private Double priceBuy;
+    private BookDto book;
+    //private UserDto user;
 }

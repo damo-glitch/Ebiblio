@@ -7,22 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_borrow_book")
-public class Borrow {
+@AllArgsConstructor
+@Table(name = "user_buy_book")
+public class Buy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate dateBorrow;
     private Integer quantity;
-    private Integer numberDays;
-    private LocalDate dateExpired;
+    private LocalDate dateBuy;
+    private Double unitPrice;
+    private Double priceBuy;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne

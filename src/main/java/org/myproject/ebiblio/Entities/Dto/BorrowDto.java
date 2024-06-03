@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class BorrowDto {
     private Long id;
     private LocalDate dateBorrow;
+    private Integer quantity;
     private Integer numberDays;
     private LocalDate dateExpired;
     private BookDto book;

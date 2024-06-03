@@ -22,7 +22,7 @@ public class Book {
     private LocalDate dateOfPublication;
     private String editor;
     private Integer inStock;
-    private Double priceBuy;
+    private Double price;
 
 
     @OneToMany(mappedBy = "book")
